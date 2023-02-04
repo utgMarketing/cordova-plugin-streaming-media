@@ -228,6 +228,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 	public boolean onTouchEvent(MotionEvent event) {
 		if (mMediaController != null)
 			mMediaController.show();
+		        close.setVisibility(View.VISIBLE);
 		return false;
 	}
 }
