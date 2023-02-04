@@ -95,6 +95,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 
 	private void play() {
 		mProgressBar.setVisibility(View.VISIBLE);
+		close.setVisibility(View.VISIBLE);
 		Uri videoUri = Uri.parse(mVideoUrl);
 		try {
 			mVideoView.setOnCompletionListener(this);
@@ -106,6 +107,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 			mMediaController.setMediaPlayer(mVideoView);
 			if (!mControls) {
 				mMediaController.setVisibility(View.GONE);
+				close.setVisibility(View.GONE);
 			}
 			mVideoView.setMediaController(mMediaController);
 		} catch (Throwable t) {
@@ -128,6 +130,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 				// Video is not at the very beginning anymore.
 				// Hide the progress bar.
 				mProgressBar.setVisibility(View.GONE);
+				close.setVisibility(View.GONE);
 			} else {
 				// Video is still at the very beginning.
 				// Check again after a small amount of time.
