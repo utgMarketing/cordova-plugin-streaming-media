@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import android.widget.TextView;
+import android.os.Build;
 
 public class SimpleVideoStream extends Activity implements
 MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
@@ -40,6 +41,18 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+		// VISIV START
+		if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+			View v = this.getWindow().getDecorView();
+			v.setSystemUiVisibility(View.GONE);
+		} else if(Build.VERSION.SDK_INT >= 19) {
+			//for new api versions.
+			View decorView = this.getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
+		// VISIV STOP
 
 		Bundle b = getIntent().getExtras();
 		mVideoUrl = b.getString("mediaUrl");
