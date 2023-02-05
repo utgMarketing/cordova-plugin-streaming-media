@@ -41,8 +41,8 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
-		hideUi();
+
+		FullScreencall();
 
 		Bundle b = getIntent().getExtras();
 		mVideoUrl = b.getString("mediaUrl");
@@ -76,8 +76,8 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		relLayout.addView(close);
 		close.bringToFront();
 		// END EDIT
-		
-		
+
+
 		// Create progress throbber
 		mProgressBar = new ProgressBar(this);
 		mProgressBar.setIndeterminate(true);
@@ -96,7 +96,20 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		play();
 	}
 	
-	private void hideUi() {
+	@Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+            super.onWindowFocusChanged(hasFocus);
+            FullScreencall();
+//             View decorView = getWindow().getDecorView();
+//             if(hasFocus){
+//                 decorView.setSystemUiVisibility(
+//                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
+//                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//                 );
+//             }
+    }
+
+	private void FullScreencall() {
 	     	// VISIV START
 		if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
 			View v = this.getWindow().getDecorView();
@@ -127,7 +140,6 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 				close.setVisibility(View.GONE);
 			}
 			mVideoView.setMediaController(mMediaController);
-			hideUi();
 		} catch (Throwable t) {
 			Log.d(TAG, t.toString());
 		}
@@ -165,19 +177,16 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		mVideoView.requestFocus();
 		mVideoView.start();
 		mVideoView.postDelayed(checkIfPlaying, 0);
-		hideUi();
 	}
 
 	private void pause() {
 		Log.d(TAG, "Pausing video.");
 		mVideoView.pause();
-		hideUi();
 	}
 
 	private void stop() {
 		Log.d(TAG, "Stopping video.");
 		mVideoView.stopPlayback();
-		hideUi();
 	}
 
 	@Override
@@ -250,7 +259,6 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		if (mMediaController != null)
 			mMediaController.show();
 		        close.setVisibility(View.VISIBLE);
-		        hideUi();
 		return false;
 	}
 }
