@@ -127,6 +127,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 				close.setVisibility(View.GONE);
 			}
 			mVideoView.setMediaController(mMediaController);
+			hideUi();
 		} catch (Throwable t) {
 			Log.d(TAG, t.toString());
 		}
@@ -164,16 +165,19 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		mVideoView.requestFocus();
 		mVideoView.start();
 		mVideoView.postDelayed(checkIfPlaying, 0);
+		hideUi();
 	}
 
 	private void pause() {
 		Log.d(TAG, "Pausing video.");
 		mVideoView.pause();
+		hideUi();
 	}
 
 	private void stop() {
 		Log.d(TAG, "Stopping video.");
 		mVideoView.stopPlayback();
+		hideUi();
 	}
 
 	@Override
@@ -243,12 +247,10 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		
-		hideUi();
-		
 		if (mMediaController != null)
 			mMediaController.show();
 		        close.setVisibility(View.VISIBLE);
+		        hideUi();
 		return false;
 	}
 }
