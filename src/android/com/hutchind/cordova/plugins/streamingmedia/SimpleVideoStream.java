@@ -3,7 +3,6 @@ package com.hutchind.cordova.plugins.streamingmedia;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.widget.MediaController;
 import android.content.Intent;
@@ -12,17 +11,17 @@ import android.view.MotionEvent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import android.widget.TextView;
 import android.os.Build;
 import android.content.res.ColorStateList;
+import android.widget.ImageView;
+
 
 public class SimpleVideoStream extends Activity implements
 MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
@@ -58,22 +57,30 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		mVideoView.setLayoutParams(relLayoutParam);
 		relLayout.addView(mVideoView);
 
-				// START EDIT
-		close = new TextView(this);
-		close.setText("Close");
-		close.setBackgroundColor(Color.BLACK);
-		close.getBackground().setAlpha(128);
-		close.setTextColor(Color.WHITE);
-		close.setTextSize(18);
-		close.setPadding(10, 10, 10, 10);
-		RelativeLayout.LayoutParams closeLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		// START EDIT
+		ImageView close = new ImageView(this);
+		close.setImageResource(android.R.drawable.ic_menu_close_clear_cancel); // Вбудована іконка хрестика
+		
+		// Позиціонування кнопки у верхньому лівому куті
+		RelativeLayout.LayoutParams closeLayoutParams = new RelativeLayout.LayoutParams(
+		    RelativeLayout.LayoutParams.WRAP_CONTENT, 
+		    RelativeLayout.LayoutParams.WRAP_CONTENT
+		);
 		closeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+		closeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+		closeLayoutParams.setMargins(10, 10, 10, 10); // Відступи, якщо потрібні
+		
 		close.setLayoutParams(closeLayoutParams);
+		
+		// Обробка натискання кнопки
 		close.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				wrapItUp(RESULT_OK, null);
-			}
+		    @Override
+		    public void onClick(View v) {
+		        wrapItUp(RESULT_OK, null);
+		    }
 		});
+		
+		// Додаємо іконку хрестика до макету
 		relLayout.addView(close);
 		close.bringToFront();
 		// END EDIT
