@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 import android.widget.TextView;
 import android.os.Build;
+import android.content.res.ColorStateList;
 
 public class SimpleVideoStream extends Activity implements
 MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
@@ -85,6 +86,11 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 		RelativeLayout.LayoutParams pblp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		pblp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 		mProgressBar.setLayoutParams(pblp);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mProgressBar.setIndeterminateTintList(ColorStateList.valueOf(Color.BLUE));
+                }
+		
 		// Add progress throbber to view
 		relLayout.addView(mProgressBar);
 		mProgressBar.bringToFront();
